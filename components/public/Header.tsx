@@ -1,25 +1,21 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useState } from "react";
 import { Menu, X } from "lucide-react";
-
-const navLinks = [
-  { href: "/", label: "首页" },
-  { href: "/products", label: "产品中心" },
-  { href: "/news", label: "新闻资讯" },
-  { href: "/about", label: "关于我们" },
-  { href: "/contact", label: "联系我们" },
-];
+import type { NavItem } from "@/types";
 
 export default function Header({
   settings,
+  navItems,
 }: {
   settings: Record<string, string | null>;
+  navItems: NavItem[];
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const siteName = settings.site_name ?? "宝山光通信";
+  const siteName = settings.site_name ?? "Baoshan Optical";
   const tagline = settings.site_tagline ?? "";
+  const visibleNavItems = navItems.filter((item) => item.is_visible);
 
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
@@ -28,7 +24,7 @@ export default function Header({
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
             <div className="w-8 h-8 bg-blue-700 rounded flex items-center justify-center">
-              <span className="text-white font-bold text-sm">光</span>
+              <span className="text-white font-bold text-sm">Optical</span>
             </div>
             <div>
               <div className="font-bold text-blue-800 text-lg leading-tight">
@@ -44,13 +40,13 @@ export default function Header({
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex space-x-6">
-            {navLinks.map((link) => (
+            {visibleNavItems.map((item) => (
               <Link
-                key={link.href}
-                href={link.href}
+                key={item.id}
+                href={item.href}
                 className="text-gray-700 hover:text-blue-700 font-medium transition-colors"
               >
-                {link.label}
+                {item.label}
               </Link>
             ))}
           </nav>
@@ -61,7 +57,7 @@ export default function Header({
               href="/contact"
               className="bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-800 transition-colors"
             >
-              获取报价
+              Get Quote
             </Link>
           </div>
 
@@ -69,7 +65,7 @@ export default function Header({
           <button
             className="md:hidden p-2 text-gray-600"
             onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="菜单"
+            aria-label="Menu"
           >
             {menuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -79,14 +75,14 @@ export default function Header({
       {/* Mobile menu */}
       {menuOpen && (
         <div className="md:hidden border-t bg-white px-4 py-3 space-y-2">
-          {navLinks.map((link) => (
+          {visibleNavItems.map((item) => (
             <Link
-              key={link.href}
-              href={link.href}
+              key={item.id}
+              href={item.href}
               className="block py-2 text-gray-700 hover:text-blue-700 font-medium"
               onClick={() => setMenuOpen(false)}
             >
-              {link.label}
+              {item.label}
             </Link>
           ))}
           <Link
@@ -94,7 +90,7 @@ export default function Header({
             className="block mt-2 bg-blue-700 text-white px-4 py-2 rounded-md text-center text-sm font-medium"
             onClick={() => setMenuOpen(false)}
           >
-            获取报价
+            Get Quote
           </Link>
         </div>
       )}

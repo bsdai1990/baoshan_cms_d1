@@ -1,18 +1,22 @@
 import Link from "next/link";
 import { Phone, Mail, MapPin } from "lucide-react";
+import type { NavItem } from "@/types";
 
 export default function Footer({
   settings,
+  navItems,
 }: {
   settings: Record<string, string | null>;
+  navItems: NavItem[];
 }) {
-  const siteName = settings.site_name ?? "宝山光通信";
+  const siteName = settings.site_name ?? "Baoshan Optical";
   const companyName = settings.company_name ?? siteName;
   const phone = settings.company_phone;
   const email = settings.company_email;
   const address = settings.company_address;
   const icpNumber = settings.icp_number;
   const description = settings.footer_description ?? "";
+  const visibleNavItems = navItems.filter((item) => item.is_visible);
 
   return (
     <footer className="bg-gray-900 text-gray-300">
@@ -22,7 +26,7 @@ export default function Footer({
           <div className="md:col-span-2">
             <div className="flex items-center space-x-2 mb-4">
               <div className="w-8 h-8 bg-blue-600 rounded flex items-center justify-center">
-                <span className="text-white font-bold text-sm">光</span>
+                <span className="text-white font-bold text-sm">Optical</span>
               </div>
               <span className="text-white font-bold text-lg">{siteName}</span>
             </div>
@@ -51,20 +55,12 @@ export default function Footer({
 
           {/* Quick links */}
           <div>
-            <h3 className="text-white font-semibold mb-4">快速导航</h3>
+            <h3 className="text-white font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2 text-sm">
-              {[
-                { href: "/products", label: "产品中心" },
-                { href: "/news", label: "新闻资讯" },
-                { href: "/about", label: "关于我们" },
-                { href: "/contact", label: "联系我们" },
-              ].map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="hover:text-white transition-colors"
-                  >
-                    {link.label}
+              {visibleNavItems.slice(0, 4).map((item) => (
+                <li key={item.id}>
+                  <Link href={item.href} className="hover:text-white transition-colors">
+                    {item.label}
                   </Link>
                 </li>
               ))}
@@ -73,20 +69,17 @@ export default function Footer({
 
           {/* Product categories */}
           <div>
-            <h3 className="text-white font-semibold mb-4">产品分类</h3>
+            <h3 className="text-white font-semibold mb-4">Categories</h3>
             <ul className="space-y-2 text-sm">
               {[
-                { href: "/products?category=optical-fiber-cables", label: "光纤光缆" },
-                { href: "/products?category=optical-modules", label: "光模块" },
-                { href: "/products?category=passive-optical-components", label: "无源光器件" },
-                { href: "/products?category=active-equipment", label: "有源设备" },
-                { href: "/products?category=test-instruments", label: "测试仪表" },
+                { href: "/products?category=optical-fiber-cables", label: "Optical Fiber Cables" },
+                { href: "/products?category=optical-modules", label: "Optical Modules" },
+                { href: "/products?category=passive-optical-components", label: "Passive Components" },
+                { href: "/products?category=active-equipment", label: "Active Equipment" },
+                { href: "/products?category=test-instruments", label: "Test Instruments" },
               ].map((link) => (
                 <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="hover:text-white transition-colors"
-                  >
+                  <Link href={link.href} className="hover:text-white transition-colors">
                     {link.label}
                   </Link>
                 </li>
@@ -97,7 +90,7 @@ export default function Footer({
 
         <div className="border-t border-gray-700 mt-8 pt-6 text-center text-sm text-gray-500">
           <p>
-            © {new Date().getFullYear()} {companyName}. 保留所有权利.
+            © {new Date().getFullYear()} {companyName}. All Rights Reserved.
             {icpNumber && (
               <span className="ml-2">
                 <a

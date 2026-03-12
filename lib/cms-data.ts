@@ -12,6 +12,7 @@ import type {
   Article,
   Banner,
   ContactSubmission,
+  NavItem,
   Product,
   ProductCategory,
   SiteSetting,
@@ -62,6 +63,8 @@ type ArticleRow = RowDataPacket &
 type SiteSettingRow = RowDataPacket & SiteSetting;
 type ContactRow = RowDataPacket &
   Omit<ContactSubmission, "is_read"> & { is_read: number | boolean };
+type NavItemRow = RowDataPacket &
+  Omit<NavItem, "is_visible"> & { is_visible: number | boolean };
 type AdminRow = RowDataPacket & {
   id: string;
   email: string;
@@ -133,6 +136,13 @@ function mapContact(row: ContactRow): ContactSubmission {
   return {
     ...row,
     is_read: asBoolean(row.is_read),
+  };
+}
+
+function mapNavItem(row: NavItemRow): NavItem {
+  return {
+    ...row,
+    is_visible: asBoolean(row.is_visible),
   };
 }
 
@@ -611,5 +621,73 @@ export async function createContactSubmission(input: {
       id, name, email, phone, company, message
     ) VALUES (?, ?, ?, ?, ?, ?)`,
     [id, input.name, input.email, input.phone, input.company, input.message]
+  );
+}
+
+// Navigation Items functions
+export async function getNavItems(options?: { visibleOnly?: boolean }) {
+  const where = options?.visibleOnly ? "WHERE is_visible = 1" : "";
+  const rows = await queryRows<NavItemRow[]>(
+    `SELECT id, label, href, sort_order, is_visible, created_at, updated_at
+     FROM nav_items
+     ${where}
+     ORDER BY sort_order ASC, created_at ASC`
+  );
+  return rows.map(mapNavItem);
+}
+
+export async function getNavItemById(id: string) {
+  const rows = await queryRows<NavItemRow[]>(
+    `SELECT id, label, href, sort_order, is_visible, created_at, updated_at
+     FROM nav_items
+     WHERE id = ?
+     LIMIT 1`,
+    [id]
+  );
+  return rows[0] ? mapNavItem(rows[0]) : null;
+}
+
+export type NavItemInput = {
+  label: string;
+  href: string;
+  sort_order: number;
+  is_visible: boolean;
+};
+
+export async function createNavItem(input: NavItemInput) {
+  const id = randomUUID();
+  await executeStatement(
+    `INSERT INTO nav_items (id, label, href, sort_order, is_visible)
+     VALUES (?, ?, ?, ?, ?)`,
+    [id, input.label, input.href, input.sort_order, input.is_visible]
+  );
+  return getNavItemById(id);
+}
+
+export async function updateNavItem(id: string, input: NavItemInput) {
+  await executeStatement(
+    `UPDATE nav_items SET
+      label = ?,
+      href = ?,
+      sort_order = ?,
+      is_visible = ?
+    WHERE id = ?`,
+    [input.label, input.href, input.sort_order, input.is_visible, id]
+  );
+  return getNavItemById(id);
+}
+
+export async function deleteNavItem(id: string) {
+  await executeStatement("DELETE FROM nav_items WHERE id = ?", [id]);
+}
+
+export async function updateNavItemOrder(updates: Array<{ id: string; sort_order: number }>) {
+  await Promise.all(
+    updates.map(({ id, sort_order }) =>
+      executeStatement(
+        "UPDATE nav_items SET sort_order = ? WHERE id = ?",
+        [sort_order, id]
+      )
+    )
   );
 }

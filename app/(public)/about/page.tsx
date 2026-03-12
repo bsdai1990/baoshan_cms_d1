@@ -3,8 +3,8 @@ import type { Metadata } from "next";
 import { getSettingsMap } from "@/lib/cms-data";
 
 export const metadata: Metadata = {
-  title: "关于我们",
-  description: "了解宝山光通信的发展历程、技术实力和企业文化",
+  title: "About Us",
+  description: "Learn about Baoshan Optical Communication's development history, technical expertise, and corporate culture",
 };
 
 export const revalidate = 3600;
@@ -12,41 +12,41 @@ export const revalidate = 3600;
 export default async function AboutPage() {
   const settingsMap = await getSettingsMap();
 
-  const companyName = settingsMap.company_name ?? "宝山光通信科技有限公司";
+  const companyName = settingsMap.company_name ?? "Baoshan Optical Communication Technology Co., Ltd.";
   const aboutContent =
     settingsMap.about_content ??
-    "宝山光通信科技有限公司专注于光通信产品的研发、生产和销售，致力于为客户提供高品质的光纤、光缆、光模块及系统解决方案。";
+    "Baoshan Optical Communication Technology Co., Ltd. specializes in the R&D, production, and sales of optical communication products, dedicated to providing high-quality optical fiber, optical cables, optical modules, and system solutions to customers.";
 
   const milestones = [
-    { year: "2004", event: "公司成立，专注光纤光缆产品研发与生产" },
-    { year: "2008", event: "通过ISO 9001质量管理体系认证" },
-    { year: "2012", event: "扩大产品线，进入光模块和无源器件领域" },
-    { year: "2016", event: "建立全国服务网络，覆盖80+城市" },
-    { year: "2019", event: "产品出口东南亚、中东等地区" },
-    { year: "2022", event: "推出400G光模块产品系列，进军高速数据中心市场" },
-    { year: "2024", event: "研发团队突破100人，开展800G及硅光技术预研" },
+    { year: "2004", event: "Company founded, focusing on R&D and production of optical fiber and cable products" },
+    { year: "2008", event: "Achieved ISO 9001 quality management system certification" },
+    { year: "2012", event: "Expanded product line into optical modules and passive components" },
+    { year: "2016", event: "Established nationwide service network covering 80+ cities" },
+    { year: "2019", event: "Started exporting to Southeast Asia, Middle East, and other regions" },
+    { year: "2022", event: "Launched 400G optical module series, entering high-speed data center market" },
+    { year: "2024", event: "R&D team exceeded 100 members, began R&D on 800G and silicon photonics technology" },
   ];
 
   const values = [
     {
       icon: "🎯",
-      title: "专注专业",
-      desc: "深耕光通信行业二十年，专注做好每一款产品",
+      title: "Focus & Expertise",
+      desc: "Dedicated to optical communications for 20 years, focusing on excellence in every product",
     },
     {
       icon: "💡",
-      title: "持续创新",
-      desc: "持续投入研发，跟进行业最新技术趋势",
+      title: "Continuous Innovation",
+      desc: "Continuous R&D investment to keep pace with latest industry technology trends",
     },
     {
       icon: "🤝",
-      title: "诚信合作",
-      desc: "以诚信为本，与客户和伙伴建立长期合作关系",
+      title: "Integrity & Partnership",
+      desc: "Building long-term relationships with customers and partners based on integrity",
     },
     {
       icon: "🌱",
-      title: "绿色发展",
-      desc: "推广低功耗产品，践行可持续发展理念",
+      title: "Green Development",
+      desc: "Promoting low-power products and practicing sustainable development",
     },
   ];
 

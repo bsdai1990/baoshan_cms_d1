@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, CheckCircle, Phone } from "lucide-react";
 import { format } from "date-fns";
-import { zhCN } from "date-fns/locale/zh-CN";
+import { enUS } from "date-fns/locale/en-US";
 
 export const revalidate = 60;
 
@@ -15,12 +15,19 @@ export default async function HomePage() {
   ]);
 
   const advantages = [
-    "20年光通信行业专业经验",
-    "通过ISO 9001:2015质量认证",
-    "自主研发生产，品质保障",
-    "覆盖全国80+城市服务网络",
-    "专业售后技术支持团队",
-    "产品符合ITU-T/IEC国际标准",
+    "20+ years of professional experience in optical communication industry",
+    "ISO 9001:2015 quality management system certified",
+    "Independent R&D and production, quality assurance",
+    "Nationwide service network covering 80+ cities",
+    "Professional after-sales technical support team",
+    "Products comply with ITU-T/IEC international standards",
+  ];
+
+  const stats = [
+    { value: "20+", label: "Years of Experience" },
+    { value: "500+", label: "Product Models" },
+    { value: "1000+", label: "Clients Served" },
+    { value: "80+", label: "Cities Covered" },
   ];
 
   return (
@@ -58,8 +65,8 @@ export default async function HomePage() {
                         href={banner.link_url}
                         className="inline-flex items-center bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
                       >
-                        {banner.link_text ?? "了解更多"}
-                        <ArrowRight size={18} className="ml-2" />
+                        {banner.link_text || "Learn More"}
+                        <ArrowRight className="ml-2" size={18} />
                       </Link>
                     )}
                   </div>
@@ -70,19 +77,20 @@ export default async function HomePage() {
         ) : (
           <div className="relative">
             <div className="w-full h-[480px] bg-gradient-to-r from-blue-900 via-blue-800 to-cyan-800" />
-            <div className="absolute inset-0 flex items-center">
+            <div className="absolute inset-0 bg-black/40 flex items-center">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
                 <h1 className="text-4xl md:text-5xl font-bold mb-4 max-w-2xl">
-                  专业光通信产品与解决方案
+                  Leading Optical Communication Solutions
                 </h1>
                 <p className="text-lg md:text-xl text-blue-100 mb-8 max-w-xl">
-                  光纤、光缆、光模块及系统集成，服务运营商、数据中心与企业用户
+                  Specializing in optical fibers, cables, optical modules and system integration, serving global customers
                 </p>
                 <Link
                   href="/products"
                   className="inline-flex items-center bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
                 >
-                  查看产品 <ArrowRight size={18} className="ml-2" />
+                  View Products
+                  <ArrowRight className="ml-2" size={18} />
                 </Link>
               </div>
             </div>
@@ -90,17 +98,12 @@ export default async function HomePage() {
         )}
       </section>
 
-      {/* Stats bar */}
+      {/* Stats Bar */}
       <section className="bg-blue-700 text-white py-4">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-            {[
-              { value: "20+", label: "年行业经验" },
-              { value: "500+", label: "产品型号" },
-              { value: "1000+", label: "服务客户" },
-              { value: "80+", label: "覆盖城市" },
-            ].map((stat) => (
-              <div key={stat.label}>
+            {stats.map((stat, index) => (
+              <div key={index}>
                 <div className="text-2xl font-bold">{stat.value}</div>
                 <div className="text-sm text-blue-200">{stat.label}</div>
               </div>
@@ -110,65 +113,55 @@ export default async function HomePage() {
       </section>
 
       {/* Featured Products */}
-      {products.length > 0 && (
-        <section className="py-16 bg-gray-50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-10">
-              <h2 className="text-3xl font-bold text-gray-900">明星产品</h2>
-              <p className="mt-2 text-gray-500">专业品质，覆盖光通信各类应用场景</p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {products.map((product) => (
-                <Link
-                  key={product.id}
-                  href={`/products/${product.slug}`}
-                  className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow group"
-                >
-                  <div className="h-48 bg-gradient-to-br from-blue-50 to-cyan-50 flex items-center justify-center">
-                    {product.image_url ? (
-                      <Image
-                        src={product.image_url}
-                        alt={product.name}
-                        width={300}
-                        height={200}
-                        className="w-full h-48 object-cover"
-                      />
-                    ) : (
-                      <div className="text-5xl text-blue-200">📡</div>
-                    )}
-                  </div>
-                  <div className="p-4">
-                    {product.category && (
-                      <span className="text-xs text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">
-                        {product.category.name}
-                      </span>
-                    )}
-                    <h3 className="font-semibold text-gray-900 mt-2 group-hover:text-blue-700 transition-colors">
-                      {product.name}
-                    </h3>
-                    {product.summary && (
-                      <p className="text-sm text-gray-500 mt-1 line-clamp-2">
-                        {product.summary}
-                      </p>
-                    )}
-                    <div className="mt-3 flex items-center text-blue-600 text-sm font-medium">
-                      查看详情 <ArrowRight size={14} className="ml-1" />
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-            <div className="text-center mt-8">
-              <Link
-                href="/products"
-                className="inline-flex items-center border-2 border-blue-700 text-blue-700 hover:bg-blue-700 hover:text-white px-6 py-2 rounded-lg font-semibold transition-colors"
-              >
-                查看全部产品 <ArrowRight size={18} className="ml-2" />
-              </Link>
-            </div>
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl font-bold text-gray-900">Featured Products</h2>
+            <p className="mt-2 text-gray-500">
+              Professional quality, covering all optical communication application scenarios
+            </p>
           </div>
-        </section>
-      )}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {products.map((product) => (
+              <Link
+                key={product.id}
+                href={`/products/${product.slug}`}
+                className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow group"
+              >
+                <div className="h-48 bg-gradient-to-br from-blue-50 to-cyan-50 flex items-center justify-center">
+                  <span className="text-5xl text-blue-200">📡</span>
+                </div>
+                <div className="p-4">
+                  {product.category && (
+                    <span className="text-xs text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">
+                      {product.category.name}
+                    </span>
+                  )}
+                  <h3 className="font-semibold text-gray-900 mt-2 group-hover:text-blue-700 transition-colors">
+                    {product.name}
+                  </h3>
+                  <p className="text-sm text-gray-500 mt-1 line-clamp-2">
+                    {product.summary}
+                  </p>
+                  <div className="mt-3 flex items-center text-blue-600 text-sm font-medium">
+                    View Details
+                    <ArrowRight className="ml-1" size={14} />
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+          <div className="text-center mt-8">
+            <Link
+              href="/products"
+              className="inline-flex items-center border-2 border-blue-700 text-blue-700 hover:bg-blue-700 hover:text-white px-6 py-2 rounded-lg font-semibold transition-colors"
+            >
+              View All Products
+              <ArrowRight className="ml-2" size={18} />
+            </Link>
+          </div>
+        </div>
+      </section>
 
       {/* Why Choose Us */}
       <section className="py-16 bg-white">
@@ -176,19 +169,16 @@ export default async function HomePage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                为什么选择我们？
+                Why Choose Us?
               </h2>
               <p className="text-gray-600 mb-6">
-                深耕光通信行业二十年，我们以专业的技术积累、严格的质量管控和完善的服务体系，赢得了国内外众多客户的信赖。
+                With over 20 years in the optical communication industry, we have earned the trust of numerous domestic and international customers through our professional technology accumulation, strict quality control and comprehensive service system.
               </p>
               <ul className="space-y-3">
-                {advantages.map((item) => (
-                  <li key={item} className="flex items-start space-x-3">
-                    <CheckCircle
-                      size={20}
-                      className="text-green-500 flex-shrink-0 mt-0.5"
-                    />
-                    <span className="text-gray-700">{item}</span>
+                {advantages.map((advantage, index) => (
+                  <li key={index} className="flex items-start space-x-3">
+                    <CheckCircle className="text-green-500 flex-shrink-0 mt-0.5" size={20} />
+                    <span className="text-gray-700">{advantage}</span>
                   </li>
                 ))}
               </ul>
@@ -196,28 +186,48 @@ export default async function HomePage() {
                 href="/about"
                 className="inline-flex items-center mt-6 text-blue-700 font-semibold hover:text-blue-900"
               >
-                了解更多 <ArrowRight size={16} className="ml-1" />
+                Learn More
+                <ArrowRight className="ml-1" size={16} />
               </Link>
             </div>
             <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-2xl p-8">
               <div className="grid grid-cols-2 gap-4">
-                {[
-                  { icon: "🏭", title: "自主生产", desc: "现代化生产基地，严格把控每道工序" },
-                  { icon: "🔬", title: "研发实力", desc: "专业研发团队，持续技术创新" },
-                  { icon: "✅", title: "质量认证", desc: "ISO 9001 / CE / RoHS 等国际认证" },
-                  { icon: "🚚", title: "快速交付", desc: "库存充足，支持快速响应交货" },
-                ].map((item) => (
-                  <div
-                    key={item.title}
-                    className="bg-white rounded-lg p-4 shadow-sm"
-                  >
-                    <div className="text-2xl mb-2">{item.icon}</div>
-                    <div className="font-semibold text-gray-900 text-sm">
-                      {item.title}
-                    </div>
-                    <div className="text-xs text-gray-500 mt-1">{item.desc}</div>
+                <div className="bg-white rounded-lg p-4 shadow-sm">
+                  <div className="text-2xl mb-2">🏭</div>
+                  <div className="font-semibold text-gray-900 text-sm">
+                    Independent Production
                   </div>
-                ))}
+                  <div className="text-xs text-gray-500 mt-1">
+                    Modern production base, strictly controlling every process
+                  </div>
+                </div>
+                <div className="bg-white rounded-lg p-4 shadow-sm">
+                  <div className="text-2xl mb-2">🔬</div>
+                  <div className="font-semibold text-gray-900 text-sm">
+                    R&D Strength
+                  </div>
+                  <div className="text-xs text-gray-500 mt-1">
+                    Professional R&D team, continuous technological innovation
+                  </div>
+                </div>
+                <div className="bg-white rounded-lg p-4 shadow-sm">
+                  <div className="text-2xl mb-2">✅</div>
+                  <div className="font-semibold text-gray-900 text-sm">
+                    Quality Certification
+                  </div>
+                  <div className="text-xs text-gray-500 mt-1">
+                    ISO 9001 / CE / RoHS and other international certifications
+                  </div>
+                </div>
+                <div className="bg-white rounded-lg p-4 shadow-sm">
+                  <div className="text-2xl mb-2">🚚</div>
+                  <div className="font-semibold text-gray-900 text-sm">
+                    Fast Delivery
+                  </div>
+                  <div className="text-xs text-gray-500 mt-1">
+                    Sufficient inventory, supporting rapid response and delivery
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -225,85 +235,74 @@ export default async function HomePage() {
       </section>
 
       {/* Latest News */}
-      {articles.length > 0 && (
-        <section className="py-16 bg-gray-50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between mb-10">
-              <div>
-                <h2 className="text-3xl font-bold text-gray-900">新闻资讯</h2>
-                <p className="text-gray-500 mt-1">行业动态，技术前沿</p>
-              </div>
-              <Link
-                href="/news"
-                className="text-blue-700 hover:text-blue-900 font-medium flex items-center"
-              >
-                更多新闻 <ArrowRight size={16} className="ml-1" />
-              </Link>
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between mb-10">
+            <div>
+              <h2 className="text-3xl font-bold text-gray-900">Latest News</h2>
+              <p className="text-gray-500 mt-1">Industry updates, technology frontiers</p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {articles.map((article) => (
-                <Link
-                  key={article.id}
-                  href={`/news/${article.slug}`}
-                  className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow group"
-                >
-                  <div className="h-40 bg-gradient-to-br from-blue-100 to-cyan-100 flex items-center justify-center">
-                    {article.cover_image_url ? (
-                      <Image
-                        src={article.cover_image_url}
-                        alt={article.title}
-                        width={400}
-                        height={160}
-                        className="w-full h-40 object-cover"
-                      />
-                    ) : (
-                      <div className="text-4xl">📰</div>
-                    )}
-                  </div>
-                  <div className="p-4">
-                    {article.published_at && (
-                      <div className="text-xs text-gray-400 mb-1">
-                        {format(new Date(article.published_at), "yyyy年MM月dd日", {
-                          locale: zhCN,
-                        })}
-                      </div>
-                    )}
-                    <h3 className="font-semibold text-gray-900 group-hover:text-blue-700 transition-colors line-clamp-2">
-                      {article.title}
-                    </h3>
-                    {article.summary && (
-                      <p className="text-sm text-gray-500 mt-2 line-clamp-2">
-                        {article.summary}
-                      </p>
-                    )}
-                  </div>
-                </Link>
-              ))}
-            </div>
+            <Link
+              href="/news"
+              className="text-blue-700 hover:text-blue-900 font-medium flex items-center"
+            >
+              More News
+              <ArrowRight className="ml-1" size={16} />
+            </Link>
           </div>
-        </section>
-      )}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {articles.map((article) => (
+              <Link
+                key={article.id}
+                href={`/news/${article.slug}`}
+                className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow group"
+              >
+                <div className="h-40 bg-gradient-to-br from-blue-100 to-cyan-100 flex items-center justify-center">
+                  <span className="text-4xl">📰</span>
+                </div>
+                <div className="p-4">
+                  {article.published_at && (
+                    <div className="text-xs text-gray-400 mb-1">
+                      {format(new Date(article.published_at), "MMMM d, yyyy", {
+                        locale: enUS,
+                      })}
+                    </div>
+                  )}
+                  <h3 className="font-semibold text-gray-900 group-hover:text-blue-700 transition-colors line-clamp-2">
+                    {article.title}
+                  </h3>
+                  <p className="text-sm text-gray-500 mt-2 line-clamp-2">
+                    {article.summary}
+                  </p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
 
-      {/* CTA */}
+      {/* CTA Section */}
       <section className="bg-blue-800 text-white py-14">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">准备好与我们合作了吗？</h2>
+          <h2 className="text-3xl font-bold mb-4">
+            Ready to Work with Us?
+          </h2>
           <p className="text-blue-200 mb-8 text-lg">
-            联系我们的销售团队，获取产品报价和技术支持
+            Contact our sales team for product quotes and technical support
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/contact"
               className="inline-flex items-center bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
             >
-              <Phone size={18} className="mr-2" />
-              立即联系
+              <Phone className="mr-2" size={18} />
+              Contact Now
             </Link>
             <Link
               href="/products"
               className="inline-flex items-center border-2 border-white text-white hover:bg-white hover:text-blue-800 px-8 py-3 rounded-lg font-semibold transition-colors"
             >
-              浏览产品
+              Browse Products
             </Link>
           </div>
         </div>

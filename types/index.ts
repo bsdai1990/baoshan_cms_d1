@@ -69,3 +69,13 @@ export interface ContactSubmission {
   is_read: boolean;
   created_at: string;
 }
+
+export interface NavItem {
+  id: string;
+  label: string;
+  href: string;
+  sort_order: number;
+  is_visible: boolean;
+  created_at: string;
+  updated_at: string;
+}
