@@ -10,6 +10,7 @@ import {
   MessageSquare,
   Newspaper,
   Package,
+  RefreshCw,
   Settings,
 } from "lucide-react";
 
@@ -22,6 +23,7 @@ const navItems = [
   { href: "/admin/banners", icon: ImageIcon, label: "Banners" },
   { href: "/admin/contacts", icon: MessageSquare, label: "Messages" },
   { href: "/admin/settings", icon: Settings, label: "Settings" },
+  { href: "/admin/snapshot", icon: RefreshCw, label: "Snapshot" },
 ];
 
 export default function AdminSidebar() {

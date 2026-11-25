@@ -23,7 +23,7 @@ function query(sql) {
 
 const data = {
   generatedAt: new Date().toISOString(),
-  settings: query("SELECT id, `key`, value, label, updated_at FROM site_settings ORDER BY `key` ASC"),
+  settings: query('SELECT id, "key", value, label, updated_at FROM site_settings ORDER BY "key" ASC'),
   navItems: query("SELECT id, label, href, sort_order, is_visible, created_at, updated_at FROM nav_items ORDER BY sort_order ASC, created_at ASC"),
   banners: query("SELECT id, title, subtitle, image_url, link_url, link_text, sort_order, is_active, created_at, updated_at FROM banners ORDER BY sort_order ASC, created_at DESC"),
   productCategories: query("SELECT id, name, slug, description, sort_order, created_at FROM product_categories ORDER BY sort_order ASC, created_at ASC"),
@@ -56,3 +56,4 @@ const data = {
 mkdirSync(join(root, "data"), { recursive: true });
 writeFileSync(join(root, "data", "public-data.json"), `${JSON.stringify(data, null, 2)}\n`, "utf8");
 console.log(`Generated public data snapshot: ${data.products.length} products, ${data.productCategories.length} categories, ${data.articles.length} articles.`);
+
