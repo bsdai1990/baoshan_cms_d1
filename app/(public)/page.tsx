@@ -1,4 +1,4 @@
-import { getArticles, getBanners, getProducts } from "@/lib/cms-data";
+﻿import { getArticles, getBanners, getProducts } from "@/lib/cms-data";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, CheckCircle, Phone } from "lucide-react";
@@ -128,8 +128,18 @@ export default async function HomePage() {
                 href={`/products/${product.slug}`}
                 className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow group"
               >
-                <div className="h-48 bg-gradient-to-br from-blue-50 to-cyan-50 flex items-center justify-center">
-                  <span className="text-5xl text-blue-200">📡</span>
+                <div className="h-48 bg-gradient-to-br from-blue-50 to-cyan-50 flex items-center justify-center overflow-hidden">
+                  {product.image_url ? (
+                    <Image
+                      src={product.image_url}
+                      alt={product.name}
+                      width={400}
+                      height={192}
+                      className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  ) : (
+                    <span className="text-5xl text-blue-200">📡</span>
+                  )}
                 </div>
                 <div className="p-4">
                   {product.category && (
@@ -310,3 +320,4 @@ export default async function HomePage() {
     </>
   );
 }
+
