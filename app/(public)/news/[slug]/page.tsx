@@ -1,6 +1,6 @@
-import { Fragment } from "react";
+﻿import { Fragment } from "react";
 import { format } from "date-fns";
-import { zhCN } from "date-fns/locale/zh-CN";
+import { enUS } from "date-fns/locale/en-US";
 import { ArrowLeft, Calendar } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
@@ -26,15 +26,11 @@ function renderInlineContent(text: string) {
 function renderArticleContent(content: string) {
   return content.split("\n\n").map((paragraph, index) => {
     if (paragraph.startsWith("## ")) {
-      return (
-        <h2 key={`h2-${index}`}>{renderInlineContent(paragraph.slice(3))}</h2>
-      );
+      return <h2 key={`h2-${index}`}>{renderInlineContent(paragraph.slice(3))}</h2>;
     }
 
     if (paragraph.startsWith("### ")) {
-      return (
-        <h3 key={`h3-${index}`}>{renderInlineContent(paragraph.slice(4))}</h3>
-      );
+      return <h3 key={`h3-${index}`}>{renderInlineContent(paragraph.slice(4))}</h3>;
     }
 
     if (paragraph.startsWith("- ")) {
@@ -75,7 +71,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const article = await getArticleBySlug(slug, false);
 
-  if (!article) return { title: "文章未找到" };
+  if (!article) return { title: "Article Not Found" };
   return {
     title: article.title,
     description: article.summary ?? undefined,
@@ -101,9 +97,9 @@ export default async function ArticleDetailPage({ params }: Props) {
       <div className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
           <nav className="flex items-center space-x-2 text-sm text-gray-500">
-            <Link href="/" className="hover:text-blue-700">首页</Link>
+            <Link href="/" className="hover:text-blue-700">Home</Link>
             <span>/</span>
-            <Link href="/news" className="hover:text-blue-700">新闻资讯</Link>
+            <Link href="/news" className="hover:text-blue-700">News</Link>
             <span>/</span>
             <span className="text-gray-900 truncate max-w-xs">{article.title}</span>
           </nav>
@@ -114,27 +110,15 @@ export default async function ArticleDetailPage({ params }: Props) {
         <div className="flex flex-col lg:flex-row gap-8">
           <article className="flex-1 bg-white rounded-lg shadow-sm p-6 lg:p-8">
             {article.cover_image_url && (
-              <Image
-                src={article.cover_image_url}
-                alt={article.title}
-                width={800}
-                height={400}
-                className="w-full h-64 object-cover rounded-lg mb-6"
-              />
+              <Image src={article.cover_image_url} alt={article.title} width={800} height={400} className="w-full h-64 object-cover rounded-lg mb-6" />
             )}
 
-            <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
-              {article.title}
-            </h1>
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">{article.title}</h1>
 
             {article.published_at && (
               <div className="flex items-center gap-2 text-sm text-gray-400 mb-6 pb-4 border-b">
                 <Calendar size={14} />
-                <span>
-                  {format(new Date(article.published_at), "yyyy年MM月dd日", {
-                    locale: zhCN,
-                  })}
-                </span>
+                <span>{format(new Date(article.published_at), "MMMM d, yyyy", { locale: enUS })}</span>
               </div>
             )}
 
@@ -147,12 +131,9 @@ export default async function ArticleDetailPage({ params }: Props) {
             <div className="prose text-gray-700">{contentBlocks}</div>
 
             <div className="mt-8 pt-6 border-t">
-              <Link
-                href="/news"
-                className="inline-flex items-center text-blue-700 hover:text-blue-900 font-medium"
-              >
+              <Link href="/news" className="inline-flex items-center text-blue-700 hover:text-blue-900 font-medium">
                 <ArrowLeft size={16} className="mr-1" />
-                返回新闻列表
+                Back to News
               </Link>
             </div>
           </article>
@@ -160,14 +141,11 @@ export default async function ArticleDetailPage({ params }: Props) {
           <aside className="lg:w-72 flex-shrink-0 space-y-6">
             {recentArticles.length > 0 && (
               <div className="bg-white rounded-lg shadow-sm p-5">
-                <h3 className="font-semibold text-gray-900 mb-4">近期文章</h3>
+                <h3 className="font-semibold text-gray-900 mb-4">Recent Articles</h3>
                 <ul className="space-y-3">
                   {recentArticles.map((recentArticle) => (
                     <li key={recentArticle.id}>
-                      <Link
-                        href={`/news/${recentArticle.slug}`}
-                        className="text-sm text-gray-700 hover:text-blue-700 transition-colors line-clamp-2"
-                      >
+                      <Link href={`/news/${recentArticle.slug}`} className="text-sm text-gray-700 hover:text-blue-700 transition-colors line-clamp-2">
                         {recentArticle.title}
                       </Link>
                       {recentArticle.published_at && (
@@ -182,15 +160,12 @@ export default async function ArticleDetailPage({ params }: Props) {
             )}
 
             <div className="bg-blue-700 text-white rounded-lg p-5">
-              <h3 className="font-semibold mb-2">需要了解更多？</h3>
+              <h3 className="font-semibold mb-2">Need More Information?</h3>
               <p className="text-sm text-blue-200 mb-4">
-                联系我们的专业团队，获取定制化解决方案
+                Contact our professional team for customized solutions.
               </p>
-              <Link
-                href="/contact"
-                className="block bg-white text-blue-700 text-center py-2 rounded font-semibold text-sm hover:bg-blue-50 transition-colors"
-              >
-                立即联系
+              <Link href="/contact" className="block bg-white text-blue-700 text-center py-2 rounded font-semibold text-sm hover:bg-blue-50 transition-colors">
+                Contact Now
               </Link>
             </div>
           </aside>

@@ -1,12 +1,13 @@
-import { getProductCategories, getProducts } from "@/lib/cms-data";
+﻿import { getProductCategories, getProducts } from "@/lib/cms-data";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "产品中心",
-  description: "宝山光通信产品中心，涵盖光纤光缆、光模块、无源光器件、有源设备及测试仪表等全系列产品。",
+  title: "Products",
+  description:
+    "Explore our full range of optical communication products, including optical transceivers, AOC cables, DAC cables and related network solutions.",
 };
 
 export const revalidate = 60;
@@ -34,9 +35,9 @@ export default async function ProductsPage({
       {/* Page Header */}
       <div className="bg-blue-800 text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold">产品中心</h1>
+          <h1 className="text-3xl font-bold">Products</h1>
           <p className="text-blue-200 mt-2">
-            全系列光通信产品，覆盖各类应用场景
+            Full range of optical communication products for multiple network applications
           </p>
         </div>
       </div>
@@ -46,7 +47,7 @@ export default async function ProductsPage({
           {/* Sidebar categories */}
           <aside className="lg:w-56 flex-shrink-0">
             <div className="bg-white rounded-lg shadow-sm p-4">
-              <h2 className="font-semibold text-gray-900 mb-3">产品分类</h2>
+              <h2 className="font-semibold text-gray-900 mb-3">Product Categories</h2>
               <nav className="space-y-1">
                 <Link
                   href="/products"
@@ -56,7 +57,7 @@ export default async function ProductsPage({
                       : "text-gray-700 hover:bg-gray-100"
                   }`}
                 >
-                  全部产品
+                  All Products
                   <span className="ml-1 text-xs opacity-70">
                     ({allProducts.length})
                   </span>
@@ -88,9 +89,9 @@ export default async function ProductsPage({
           <div className="flex-1">
             <div className="flex items-center justify-between mb-6">
               <h2 className="font-semibold text-gray-900">
-                {activeCategory ? activeCategory.name : "全部产品"}
+                {activeCategory ? activeCategory.name : "All Products"}
                 <span className="ml-2 text-sm text-gray-400 font-normal">
-                  共 {filteredProducts.length} 件产品
+                  {filteredProducts.length} products
                 </span>
               </h2>
             </div>
@@ -98,7 +99,7 @@ export default async function ProductsPage({
             {filteredProducts.length === 0 ? (
               <div className="text-center py-20 text-gray-400">
                 <div className="text-5xl mb-4">📦</div>
-                <p>该分类暂无产品</p>
+                <p>No products found in this category.</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -136,7 +137,7 @@ export default async function ProductsPage({
                         </p>
                       )}
                       <div className="mt-3 flex items-center text-blue-600 text-sm">
-                        查看详情 <ArrowRight size={14} className="ml-1" />
+                        View Details <ArrowRight size={14} className="ml-1" />
                       </div>
                     </div>
                   </Link>

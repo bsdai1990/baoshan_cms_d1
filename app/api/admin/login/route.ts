@@ -1,9 +1,6 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 
-import {
-  createSessionToken,
-  setAdminSessionCookie,
-} from "@/lib/admin-auth";
+import { createSessionToken, setAdminSessionCookie } from "@/lib/admin-auth";
 import { verifyAdminCredentials } from "@/lib/cms-data";
 
 export async function POST(request: Request) {
@@ -13,12 +10,12 @@ export async function POST(request: Request) {
     const password = String(body.password ?? "");
 
     if (!email || !password) {
-      return NextResponse.json({ error: "请输入管理员邮箱和密码" }, { status: 400 });
+      return NextResponse.json({ error: "Please enter admin email and password" }, { status: 400 });
     }
 
     const admin = await verifyAdminCredentials(email, password);
     if (!admin) {
-      return NextResponse.json({ error: "邮箱或密码错误，请重试" }, { status: 401 });
+      return NextResponse.json({ error: "Incorrect email or password. Please try again." }, { status: 401 });
     }
 
     const response = NextResponse.json({ success: true });
@@ -26,6 +23,6 @@ export async function POST(request: Request) {
     setAdminSessionCookie(response, token);
     return response;
   } catch {
-    return NextResponse.json({ error: "登录失败，请稍后重试" }, { status: 500 });
+    return NextResponse.json({ error: "Login failed. Please try again later." }, { status: 500 });
   }
 }

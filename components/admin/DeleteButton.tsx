@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -9,7 +9,7 @@ import { requestAdmin } from "@/lib/admin-api";
 export default function DeleteButton({
   id,
   table,
-  label = "删除",
+  label = "Delete",
 }: {
   id: string;
   table: string;
@@ -19,7 +19,7 @@ export default function DeleteButton({
   const router = useRouter();
 
   const handleDelete = async () => {
-    if (!confirm("确定要删除吗？此操作不可撤销。")) return;
+    if (!confirm("Are you sure you want to delete this item? This action cannot be undone.")) return;
     setLoading(true);
 
     try {

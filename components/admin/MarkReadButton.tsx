@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -30,7 +30,7 @@ export default function MarkReadButton({ id }: { id: string }) {
       className="flex items-center gap-1 text-xs text-blue-600 hover:text-blue-800 disabled:opacity-50"
     >
       <CheckCheck size={13} />
-      {loading ? "..." : "标为已读"}
+      {loading ? "..." : "Mark as Read"}
     </button>
   );
 }

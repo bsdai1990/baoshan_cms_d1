@@ -1,16 +1,8 @@
-async function parseResponse(response: Response) {
-  const contentType = response.headers.get("content-type") ?? "";
-  if (contentType.includes("application/json")) {
-    return response.json();
-  }
-  return null;
-}
-
-export async function requestAdmin<T>(
-  url: string,
+﻿export async function requestAdmin<T = unknown>(
+  input: RequestInfo | URL,
   init?: RequestInit
 ): Promise<T> {
-  const response = await fetch(url, {
+  const response = await fetch(input, {
     ...init,
     headers: {
       "Content-Type": "application/json",
@@ -18,10 +10,13 @@ export async function requestAdmin<T>(
     },
   });
 
-  const payload = await parseResponse(response);
+  const contentType = response.headers.get("content-type") ?? "";
+  const payload = contentType.includes("application/json")
+    ? await response.json()
+    : null;
 
   if (!response.ok) {
-    throw new Error(payload?.error ?? "请求失败，请稍后重试");
+    throw new Error(payload?.error ?? "Request failed. Please try again later.");
   }
 
   return payload as T;

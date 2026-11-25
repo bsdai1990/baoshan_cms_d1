@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -16,12 +16,12 @@ import {
 import { requestAdmin } from "@/lib/admin-api";
 
 const navItems = [
-  { href: "/admin/dashboard", icon: LayoutDashboard, label: "控制台" },
-  { href: "/admin/products", icon: Package, label: "产品管理" },
-  { href: "/admin/news", icon: Newspaper, label: "新闻管理" },
-  { href: "/admin/banners", icon: ImageIcon, label: "横幅管理" },
-  { href: "/admin/contacts", icon: MessageSquare, label: "留言管理" },
-  { href: "/admin/settings", icon: Settings, label: "网站设置" },
+  { href: "/admin/dashboard", icon: LayoutDashboard, label: "Dashboard" },
+  { href: "/admin/products", icon: Package, label: "Products" },
+  { href: "/admin/news", icon: Newspaper, label: "News" },
+  { href: "/admin/banners", icon: ImageIcon, label: "Banners" },
+  { href: "/admin/contacts", icon: MessageSquare, label: "Messages" },
+  { href: "/admin/settings", icon: Settings, label: "Settings" },
 ];
 
 export default function AdminSidebar() {
@@ -39,11 +39,11 @@ export default function AdminSidebar() {
       <div className="p-4 border-b border-gray-700">
         <div className="flex items-center space-x-2">
           <div className="w-7 h-7 bg-blue-600 rounded flex items-center justify-center">
-            <span className="text-white font-bold text-xs">光</span>
+            <span className="text-white font-bold text-xs">B</span>
           </div>
           <div>
-            <div className="text-white font-semibold text-sm">宝山光通信</div>
-            <div className="text-xs text-gray-500">内容管理后台</div>
+            <div className="text-white font-semibold text-sm">Baoshan Optical</div>
+            <div className="text-xs text-gray-500">CMS Admin</div>
           </div>
         </div>
       </div>
@@ -76,14 +76,14 @@ export default function AdminSidebar() {
           className="flex items-center space-x-3 px-3 py-2 rounded-lg text-sm text-gray-400 hover:bg-gray-800 hover:text-gray-200 transition-colors"
         >
           <Globe size={16} />
-          <span>查看前台</span>
+          <span>View Website</span>
         </a>
         <button
           onClick={handleLogout}
           className="w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-sm text-gray-400 hover:bg-gray-800 hover:text-gray-200 transition-colors"
         >
           <LogOut size={16} />
-          <span>退出登录</span>
+          <span>Log Out</span>
         </button>
       </div>
     </aside>
