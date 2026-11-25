@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
-import { getNavItems, createNavItem, updateNavItem, deleteNavItem, reorderNavItems } from "@/lib/nav-data";
+﻿import { NextRequest, NextResponse } from "next/server";
+import { getNavItems, createNavItem } from "@/lib/nav-data";
 import { getAdminSessionFromRequest } from "@/lib/admin-auth";
 
 export const dynamic = "force-dynamic";
@@ -36,3 +36,4 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Failed to create navigation item" }, { status: 500 });
   }
 }
+

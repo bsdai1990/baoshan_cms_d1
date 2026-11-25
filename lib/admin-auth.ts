@@ -1,5 +1,7 @@
-import { cookies } from "next/headers";
+﻿import { cookies } from "next/headers";
 import { NextResponse, type NextRequest } from "next/server";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
+
 const SESSION_COOKIE_NAME = "baoshan_admin_session";
 const SESSION_MAX_AGE = 60 * 60 * 24 * 7;
 
@@ -12,16 +14,36 @@ const globalForSessionSecret = globalThis as typeof globalThis & {
   __BAOSHAN_DEV_SESSION_SECRET?: string;
 };
 
-function getSessionSecret() {
-  const sessionSecret = process.env.CMS_SESSION_SECRET?.trim();
-  if (sessionSecret) return sessionSecret;
+async function getSessionSecret() {
+  const processSecret = process.env.CMS_SESSION_SECRET?.trim();
+  if (processSecret) return processSecret;
+
+  let cloudflareSecret: string | undefined;
+  let cloudflareDevSecret: string | undefined;
+
+  try {
+    const { env } = await getCloudflareContext({ async: true });
+    const bindings = env as {
+      CMS_SESSION_SECRET?: string;
+      CMS_SESSION_SECRET_DEV?: string;
+    };
+    cloudflareSecret = bindings.CMS_SESSION_SECRET?.trim();
+    cloudflareDevSecret = bindings.CMS_SESSION_SECRET_DEV?.trim();
+  } catch {
+    // Not running inside Cloudflare/OpenNext runtime.
+  }
+
+  if (cloudflareSecret) return cloudflareSecret;
 
   if (process.env.NODE_ENV === "production") {
-    throw new Error("生产环境必须设置 CMS_SESSION_SECRET。");
+    throw new Error(
+      "Missing CMS_SESSION_SECRET. Set it with `wrangler secret put CMS_SESSION_SECRET`."
+    );
   }
 
   return (
     process.env.CMS_SESSION_SECRET_DEV?.trim() ||
+    cloudflareDevSecret ||
     (globalForSessionSecret.__BAOSHAN_DEV_SESSION_SECRET ??=
       crypto.randomUUID() + crypto.randomUUID())
   );
@@ -30,9 +52,7 @@ function getSessionSecret() {
 function toBase64Url(input: string | ArrayBuffer) {
   const encoder = new TextEncoder();
   const bytes =
-    typeof input === "string"
-      ? encoder.encode(input)
-      : new Uint8Array(input);
+    typeof input === "string" ? encoder.encode(input) : new Uint8Array(input);
 
   let binary = "";
   bytes.forEach((byte) => {
@@ -55,7 +75,7 @@ async function importSigningKey() {
   const encoder = new TextEncoder();
   return crypto.subtle.importKey(
     "raw",
-    encoder.encode(getSessionSecret()),
+    encoder.encode(await getSessionSecret()),
     { name: "HMAC", hash: "SHA-256" },
     false,
     ["sign"]

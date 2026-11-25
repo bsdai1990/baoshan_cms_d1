@@ -1,8 +1,8 @@
-import { NextResponse, type NextRequest } from "next/server";
+﻿import { NextResponse, type NextRequest } from "next/server";
 
 import { getAdminSessionFromRequest } from "@/lib/admin-auth";
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const session = await getAdminSessionFromRequest(request);
   const { pathname } = request.nextUrl;
 

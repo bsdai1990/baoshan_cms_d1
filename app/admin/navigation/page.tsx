@@ -1,7 +1,7 @@
-"use client";
+﻿"use client";
 
-import { useState, useEffect } from "react";
-import { Plus, Trash2, ChevronUp, ChevronDown, Eye, EyeOff } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
+import { Trash2, ChevronUp, ChevronDown, Eye, EyeOff } from "lucide-react";
 
 interface NavItem {
   id: string;
@@ -24,12 +24,7 @@ export default function NavigationPage() {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
 
-  useEffect(() => {
-    loadNavItems();
-  }, []);
-
-  const loadNavItems = async () => {
-    setLoading(true);
+  const loadNavItems = useCallback(async () => {
     try {
       const res = await fetch("/api/admin/navigation");
       if (res.ok) {
@@ -41,7 +36,12 @@ export default function NavigationPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    loadNavItems();
+  }, [loadNavItems]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -328,3 +328,7 @@ export default function NavigationPage() {
     </div>
   );
 }
+
+
+
+

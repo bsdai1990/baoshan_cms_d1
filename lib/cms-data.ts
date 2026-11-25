@@ -1,13 +1,6 @@
-import "server-only";
+﻿import "server-only";
 
-import { createHash, randomUUID } from "node:crypto";
-import type { RowDataPacket } from "mysql2/promise";
-
-import {
-  executeStatement,
-  queryRows,
-  type StatementValue,
-} from "@/lib/mysql";
+import { executeStatement, queryRows, type QueryRow, type StatementValue } from "@/lib/d1";
 import type {
   Article,
   Banner,
@@ -20,6 +13,14 @@ import type {
 
 function asBoolean(value: unknown) {
   return value === true || value === 1 || value === "1";
+}
+
+async function sha256Hex(value: string) {
+  const bytes = new TextEncoder().encode(value);
+  const digest = await crypto.subtle.digest("SHA-256", bytes);
+  return Array.from(new Uint8Array(digest))
+    .map((byte) => byte.toString(16).padStart(2, "0"))
+    .join("");
 }
 
 function asStringRecord(value: unknown): Record<string, string> | null {
@@ -41,9 +42,9 @@ function asStringRecord(value: unknown): Record<string, string> | null {
   }
 }
 
-type BannerRow = RowDataPacket & Banner;
-type CategoryRow = RowDataPacket & ProductCategory;
-type ProductRow = RowDataPacket &
+type BannerRow = QueryRow & Banner;
+type CategoryRow = QueryRow & ProductCategory;
+type ProductRow = QueryRow &
   Omit<Product, "category" | "specifications" | "is_featured" | "is_published"> & {
     specifications: unknown;
     is_featured: number | boolean;
@@ -55,24 +56,24 @@ type ProductRow = RowDataPacket &
     category_ref_sort_order: number | null;
     category_ref_created_at: string | null;
   };
-type ArticleRow = RowDataPacket &
+type ArticleRow = QueryRow &
   Omit<Article, "is_featured" | "is_published"> & {
     is_featured: number | boolean;
     is_published: number | boolean;
   };
-type SiteSettingRow = RowDataPacket & SiteSetting;
-type ContactRow = RowDataPacket &
+type SiteSettingRow = QueryRow & SiteSetting;
+type ContactRow = QueryRow &
   Omit<ContactSubmission, "is_read"> & { is_read: number | boolean };
-type NavItemRow = RowDataPacket &
+type NavItemRow = QueryRow &
   Omit<NavItem, "is_visible"> & { is_visible: number | boolean };
-type AdminRow = RowDataPacket & {
+type AdminRow = QueryRow & {
   id: string;
   email: string;
   password_salt: string;
   password_hash: string;
 };
 
-type CountRow = RowDataPacket & {
+type CountRow = QueryRow & {
   total: number;
 };
 
@@ -412,9 +413,7 @@ export async function verifyAdminCredentials(email: string, password: string) {
   const admin = rows[0];
   if (!admin) return null;
 
-  const candidateHash = createHash("sha256")
-    .update(`${admin.password_salt}${password}`)
-    .digest("hex");
+  const candidateHash = await sha256Hex(`${admin.password_salt}${password}`);
 
   if (candidateHash !== admin.password_hash) {
     return null;
@@ -424,7 +423,7 @@ export async function verifyAdminCredentials(email: string, password: string) {
 }
 
 export async function createProduct(input: ProductInput) {
-  const id = randomUUID();
+  const id = crypto.randomUUID();
   await executeStatement(
     `INSERT INTO products (
       id, category_id, name, slug, summary, description, specifications, image_url,
@@ -485,7 +484,7 @@ export async function deleteProduct(id: string) {
 }
 
 export async function createArticle(input: ArticleInput) {
-  const id = randomUUID();
+  const id = crypto.randomUUID();
   await executeStatement(
     `INSERT INTO articles (
       id, title, slug, summary, content, cover_image_url, is_featured, is_published, published_at
@@ -539,7 +538,7 @@ export async function deleteArticle(id: string) {
 }
 
 export async function createBanner(input: BannerInput) {
-  const id = randomUUID();
+  const id = crypto.randomUUID();
   await executeStatement(
     `INSERT INTO banners (
       id, title, subtitle, image_url, link_url, link_text, sort_order, is_active
@@ -615,7 +614,7 @@ export async function createContactSubmission(input: {
   company: string | null;
   message: string;
 }) {
-  const id = randomUUID();
+  const id = crypto.randomUUID();
   await executeStatement(
     `INSERT INTO contact_submissions (
       id, name, email, phone, company, message
@@ -655,7 +654,7 @@ export type NavItemInput = {
 };
 
 export async function createNavItem(input: NavItemInput) {
-  const id = randomUUID();
+  const id = crypto.randomUUID();
   await executeStatement(
     `INSERT INTO nav_items (id, label, href, sort_order, is_visible)
      VALUES (?, ?, ?, ?, ?)`,
@@ -691,3 +690,5 @@ export async function updateNavItemOrder(updates: Array<{ id: string; sort_order
     )
   );
 }
+
+

@@ -1,16 +1,9 @@
-import "server-only";
+﻿import "server-only";
 
-import { randomUUID } from "node:crypto";
-import type { RowDataPacket } from "mysql2/promise";
-
-import {
-  executeStatement,
-  queryRows,
-  type StatementValue,
-} from "@/lib/mysql";
+import { executeStatement, queryRows, type QueryRow } from "@/lib/d1";
 import type { NavItem } from "@/types";
 
-type NavItemRow = RowDataPacket & NavItem;
+type NavItemRow = QueryRow & NavItem;
 
 function mapNavItem(row: NavItemRow): NavItem {
   return {
@@ -43,7 +36,7 @@ export async function getNavItems(options?: { visibleOnly?: boolean }) {
 }
 
 export async function createNavItem(input: NavItemInput) {
-  const id = randomUUID();
+  const id = crypto.randomUUID();
   await executeStatement(
     `INSERT INTO nav_items (id, label, href, sort_order, is_visible)
      VALUES (?, ?, ?, ?, ?)`,
@@ -88,3 +81,4 @@ export async function reorderNavItems(items: { id: string; sort_order: number }[
   );
   return getNavItems();
 }
+

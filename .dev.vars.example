@@ -1,0 +1,2 @@
+﻿CMS_SESSION_SECRET=replace-with-a-long-random-string-for-local-preview
+CMS_SESSION_SECRET_DEV=baoshan-cms-local-dev-secret
