@@ -12,8 +12,9 @@
     {
       "binding": "DB",
       "database_name": "baoshan_cms",
-      "database_id": "REPLACE_WITH_YOUR_D1_DATABASE_ID",
+      "database_id": "6d74cbd2-0142-423b-855b-3c8020e791ef",
       "migrations_dir": "migrations"
     }
   ]
 }
+
