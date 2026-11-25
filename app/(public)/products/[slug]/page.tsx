@@ -1,4 +1,4 @@
-import { ArrowLeft, Phone } from "lucide-react";
+﻿import { ArrowLeft, Phone } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const product = await getProductBySlug(slug, false);
 
-  if (!product) return { title: "产品未找到" };
+  if (!product) return { title: "Product Not Found" };
   return {
     title: product.name,
     description: product.summary ?? undefined,
@@ -43,9 +43,13 @@ export default async function ProductDetailPage({ params }: Props) {
       <div className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
           <nav className="flex items-center space-x-2 text-sm text-gray-500">
-            <Link href="/" className="hover:text-blue-700">首页</Link>
+            <Link href="/" className="hover:text-blue-700">
+              Home
+            </Link>
             <span>/</span>
-            <Link href="/products" className="hover:text-blue-700">产品中心</Link>
+            <Link href="/products" className="hover:text-blue-700">
+              Products
+            </Link>
             {product.category && (
               <>
                 <span>/</span>
@@ -99,7 +103,7 @@ export default async function ProductDetailPage({ params }: Props) {
 
             {specs && Object.keys(specs).length > 0 && (
               <div className="mb-6">
-                <h2 className="font-semibold text-gray-900 mb-3">产品规格</h2>
+                <h2 className="font-semibold text-gray-900 mb-3">Specifications</h2>
                 <table className="w-full text-sm">
                   <tbody>
                     {Object.entries(specs).map(([key, value]) => (
@@ -119,14 +123,14 @@ export default async function ProductDetailPage({ params }: Props) {
                 className="flex-1 bg-blue-700 hover:bg-blue-800 text-white py-3 rounded-lg font-semibold text-center transition-colors flex items-center justify-center gap-2"
               >
                 <Phone size={16} />
-                获取报价
+                Get Quote
               </Link>
               <Link
                 href="/products"
                 className="flex items-center gap-1 border border-gray-300 text-gray-700 hover:border-blue-700 hover:text-blue-700 px-4 py-3 rounded-lg transition-colors"
               >
                 <ArrowLeft size={16} />
-                返回列表
+                Back to Products
               </Link>
             </div>
           </div>
@@ -134,7 +138,7 @@ export default async function ProductDetailPage({ params }: Props) {
 
         {product.description && (
           <div className="bg-white rounded-lg shadow-sm p-6 mt-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">产品详情</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-4">Product Details</h2>
             <div className="prose text-gray-700 leading-relaxed whitespace-pre-line">
               {product.description}
             </div>
@@ -143,7 +147,7 @@ export default async function ProductDetailPage({ params }: Props) {
 
         {relatedProducts.length > 0 && (
           <div className="mt-10">
-            <h2 className="text-xl font-bold text-gray-900 mb-5">相关产品</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-5">Related Products</h2>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
               {relatedProducts.map((rp) => (
                 <Link
