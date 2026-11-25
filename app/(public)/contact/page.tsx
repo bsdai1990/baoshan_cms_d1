@@ -2,7 +2,7 @@
 import { Clock, Mail, MapPin, Phone } from "lucide-react";
 
 import ContactForm from "@/components/public/ContactForm";
-import { getSettingsMap } from "@/lib/cms-data";
+import { getPublicSettingsMap as getSettingsMap } from "@/lib/public-data";
 
 export const metadata: Metadata = {
   title: "Contact Us",
@@ -98,3 +98,4 @@ export default async function ContactPage() {
     </div>
   );
 }
+

@@ -4,11 +4,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { getProductBySlug, getProducts } from "@/lib/cms-data";
+import { getPublicProductBySlug as getProductBySlug, getPublicProducts as getProducts } from "@/lib/public-data";
 
-export const revalidate = 60;
+export const dynamicParams = false;
+export const revalidate = false;
 
 type Props = { params: Promise<{ slug: string }> };
+
+export function generateStaticParams() {
+  return getProducts({ publishedOnly: true }).map((product) => ({
+    slug: product.slug,
+  }));
+}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
@@ -182,3 +189,5 @@ export default async function ProductDetailPage({ params }: Props) {
     </div>
   );
 }
+
+

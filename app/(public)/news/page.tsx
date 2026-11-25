@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
-import { getArticles } from "@/lib/cms-data";
+import { getPublicArticles as getArticles } from "@/lib/public-data";
 
 export const metadata: Metadata = {
   title: "News",
@@ -95,3 +95,4 @@ export default async function NewsPage() {
     </div>
   );
 }
+

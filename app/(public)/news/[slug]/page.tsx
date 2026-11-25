@@ -7,11 +7,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { getArticleBySlug, getArticles } from "@/lib/cms-data";
+import { getPublicArticleBySlug as getArticleBySlug, getPublicArticles as getArticles } from "@/lib/public-data";
 
-export const revalidate = 60;
+export const dynamicParams = false;
+export const revalidate = false;
 
 type Props = { params: Promise<{ slug: string }> };
+
+export function generateStaticParams() {
+  return getArticles({ publishedOnly: true }).map((article) => ({
+    slug: article.slug,
+  }));
+}
 
 function renderInlineContent(text: string) {
   return text.split(/(\*\*.*?\*\*)/g).map((part, index) => {
@@ -174,3 +181,5 @@ export default async function ArticleDetailPage({ params }: Props) {
     </div>
   );
 }
+
+

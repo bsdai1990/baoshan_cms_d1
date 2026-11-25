@@ -1,4 +1,4 @@
-﻿import { getArticles, getBanners, getProducts } from "@/lib/cms-data";
+﻿import { getPublicArticles as getArticles, getPublicBanners as getBanners, getPublicProducts as getProducts } from "@/lib/public-data";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, CheckCircle, Phone } from "lucide-react";
@@ -320,4 +320,5 @@ export default async function HomePage() {
     </>
   );
 }
+
 

@@ -1,9 +1,9 @@
-import Footer from "@/components/public/Footer";
+﻿import Footer from "@/components/public/Footer";
 import Header from "@/components/public/Header";
-import { getSettingsMap } from "@/lib/cms-data";
-import { getNavItems } from "@/lib/nav-data";
+import { getPublicNavItems, getPublicSettingsMap } from "@/lib/public-data";
 
-export const dynamic = "force-dynamic";
+
+
 
 export default async function PublicLayout({
   children,
@@ -11,8 +11,8 @@ export default async function PublicLayout({
   children: React.ReactNode;
 }) {
   const [settingsMap, navItems] = await Promise.all([
-    getSettingsMap(),
-    getNavItems({ visibleOnly: true }),
+    getPublicSettingsMap(),
+    getPublicNavItems({ visibleOnly: true }),
   ]);
 
   return (
@@ -23,3 +23,4 @@ export default async function PublicLayout({
     </div>
   );
 }
+

@@ -1,6 +1,6 @@
 ﻿import type { Metadata } from "next";
 
-import { getSettingsMap } from "@/lib/cms-data";
+import { getPublicSettingsMap as getSettingsMap } from "@/lib/public-data";
 
 export const metadata: Metadata = {
   title: "About Us",
@@ -130,3 +130,4 @@ export default async function AboutPage() {
     </div>
   );
 }
+
