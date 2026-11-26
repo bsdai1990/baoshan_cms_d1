@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { RefreshCw, ExternalLink } from "lucide-react";
@@ -17,7 +17,7 @@ export default function SnapshotTriggerButton() {
   const [error, setError] = useState<string | null>(null);
 
   const handleClick = async () => {
-    if (!confirm("This will regenerate the public data snapshot and redeploy the website. Continue?")) {
+    if (!confirm("这将重新生成前台静态数据快照并重新部署网站，是否继续？")) {
       return;
     }
 
@@ -35,7 +35,7 @@ export default function SnapshotTriggerButton() {
       setError(
         triggerError instanceof Error
           ? triggerError.message
-          : "Failed to trigger snapshot generation."
+          : "触发快照生成失败。"
       );
     } finally {
       setLoading(false);
@@ -51,7 +51,7 @@ export default function SnapshotTriggerButton() {
         className="inline-flex items-center gap-2 bg-blue-700 hover:bg-blue-800 disabled:bg-blue-400 text-white font-semibold px-5 py-2.5 rounded-lg transition-colors"
       >
         <RefreshCw size={16} className={loading ? "animate-spin" : ""} />
-        {loading ? "Starting..." : "Generate Snapshot & Deploy"}
+        {loading ? "启动中..." : "生成快照并部署"}
       </button>
 
       {result && (
@@ -78,3 +78,4 @@ export default function SnapshotTriggerButton() {
     </div>
   );
 }
+

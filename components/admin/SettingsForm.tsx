@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { CheckCircle, Save } from "lucide-react";
@@ -7,16 +7,16 @@ import { requestAdmin } from "@/lib/admin-api";
 import type { SiteSetting } from "@/types";
 
 const labelMap: Record<string, string> = {
-  site_name: "Site Name",
-  site_tagline: "Site Tagline",
-  company_name: "Company Name",
-  company_address: "Company Address",
-  company_phone: "Company Phone",
-  company_email: "Company Email",
-  icp_number: "ICP Number",
-  about_content: "About Content",
-  footer_description: "Footer Description",
-  wechat_qrcode: "WeChat QR Code",
+  site_name: "网站名称",
+  site_tagline: "网站标语",
+  company_name: "公司名称",
+  company_address: "公司地址",
+  company_phone: "联系电话",
+  company_email: "联系邮箱",
+  icp_number: "备案号",
+  about_content: "关于我们内容",
+  footer_description: "页脚描述",
+  wechat_qrcode: "微信二维码",
 };
 
 export default function SettingsForm({ settings }: { settings: SiteSetting[] }) {
@@ -50,7 +50,7 @@ export default function SettingsForm({ settings }: { settings: SiteSetting[] }) 
       setSaved(true);
       setTimeout(() => setSaved(false), 3000);
     } catch (saveError) {
-      setError(saveError instanceof Error ? saveError.message : "Save failed. Please try again later.");
+      setError(saveError instanceof Error ? saveError.message : "保存失败，请稍后重试。");
     }
 
     setLoading(false);
@@ -102,10 +102,11 @@ export default function SettingsForm({ settings }: { settings: SiteSetting[] }) 
         ) : (
           <>
             <Save size={16} />
-            {loading ? "Saving..." : "Save Settings"}
+            {loading ? "保存中..." : "保存设置"}
           </>
         )}
       </button>
     </form>
   );
 }
+

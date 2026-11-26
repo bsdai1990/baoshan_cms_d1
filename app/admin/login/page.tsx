@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -27,7 +27,7 @@ export default function LoginPage() {
       router.push("/admin/dashboard");
       router.refresh();
     } catch (loginError) {
-      setError(loginError instanceof Error ? loginError.message : "Login failed. Please try again later.");
+      setError(loginError instanceof Error ? loginError.message : "登录失败，请稍后重试。");
       setLoading(false);
     }
   };
@@ -40,17 +40,17 @@ export default function LoginPage() {
             <span className="text-white font-bold text-xl">B</span>
           </div>
           <h1 className="text-xl font-bold text-gray-900">Baoshan Optical</h1>
-          <p className="text-sm text-gray-500 mt-1">CMS Admin</p>
+          <p className="text-sm text-gray-500 mt-1">后台管理</p>
         </div>
 
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Admin Email</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">管理员邮箱</label>
             <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} required placeholder="admin@example.com" className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">密码</label>
             <div className="relative">
               <input type={showPassword ? "text" : "password"} value={password} onChange={(event) => setPassword(event.target.value)} required placeholder="••••••••" className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-10" />
               <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
@@ -62,11 +62,12 @@ export default function LoginPage() {
           {error && <div className="bg-red-50 border border-red-200 rounded-lg px-3 py-2 text-sm text-red-700">{error}</div>}
 
           <button type="submit" disabled={loading} className="w-full bg-blue-700 hover:bg-blue-800 disabled:bg-blue-400 text-white font-semibold py-2.5 rounded-lg transition-colors flex items-center justify-center gap-2">
-            {loading ? <><span className="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />Signing in...</> : "Sign In"}
+            {loading ? <><span className="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />登录中...</> : "登录"}
           </button>
-          <p className="text-xs text-gray-400 text-center">Default account: admin@example.com / Admin@123456</p>
+          <p className="text-xs text-gray-400 text-center">默认账号： admin@example.com / Admin@123456</p>
         </form>
       </div>
     </div>
   );
 }
+

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -78,7 +78,7 @@ export default function ArticleForm({ article }: { article?: Article }) {
       router.refresh();
     } catch (submitError) {
       setError(
-        submitError instanceof Error ? submitError.message : "Save failed. Please try again later."
+        submitError instanceof Error ? submitError.message : "保存失败，请稍后重试。"
       );
       setLoading(false);
     }
@@ -101,36 +101,36 @@ export default function ArticleForm({ article }: { article?: Article }) {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Summary</label>
-        <textarea name="summary" value={formData.summary} onChange={handleChange} rows={2} placeholder="Short article summary..." className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" />
+        <label className="block text-sm font-medium text-gray-700 mb-1">摘要</label>
+        <textarea name="summary" value={formData.summary} onChange={handleChange} rows={2} placeholder="文章简短摘要..." className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Content</label>
-        <textarea name="content" value={formData.content} onChange={handleChange} rows={14} placeholder="Basic Markdown is supported, for example: ## Heading, **bold**, - list" className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-y font-mono" />
+        <label className="block text-sm font-medium text-gray-700 mb-1">正文内容</label>
+        <textarea name="content" value={formData.content} onChange={handleChange} rows={14} placeholder="支持基础 Markdown，例如：## 标题、**加粗**、- 列表" className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-y font-mono" />
         <p className="text-xs text-gray-400 mt-1">
-          Supported formats: ## heading, ### subheading, **bold**, - unordered list, 1. ordered list
+          支持格式：## 标题、### 小标题、**加粗**、- 无序列表、1. 有序列表
         </p>
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Cover Image URL</label>
+        <label className="block text-sm font-medium text-gray-700 mb-1">封面图片地址</label>
         <input type="text" name="cover_image_url" value={formData.cover_image_url} onChange={handleChange} placeholder="/images/news.jpg or https://..." className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Publish Time</label>
+        <label className="block text-sm font-medium text-gray-700 mb-1">发布时间</label>
         <input type="datetime-local" name="published_at" value={formData.published_at} onChange={handleChange} className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
       </div>
 
       <div className="flex gap-6">
         <label className="flex items-center gap-2 cursor-pointer">
           <input type="checkbox" name="is_featured" checked={formData.is_featured} onChange={handleChange} className="w-4 h-4 text-blue-600" />
-          <span className="text-sm font-medium text-gray-700">Featured</span>
+          <span className="text-sm font-medium text-gray-700">推荐</span>
         </label>
         <label className="flex items-center gap-2 cursor-pointer">
           <input type="checkbox" name="is_published" checked={formData.is_published} onChange={handleChange} className="w-4 h-4 text-blue-600" />
-          <span className="text-sm font-medium text-gray-700">Published</span>
+          <span className="text-sm font-medium text-gray-700">已发布</span>
         </label>
       </div>
 
@@ -138,7 +138,7 @@ export default function ArticleForm({ article }: { article?: Article }) {
 
       <div className="flex gap-3 pt-2">
         <button type="submit" disabled={loading} className="bg-blue-700 hover:bg-blue-800 disabled:bg-blue-400 text-white font-semibold px-6 py-2 rounded-lg transition-colors">
-          {loading ? "Saving..." : isEdit ? "Save Changes" : "Create Article"}
+          {loading ? "保存中..." : isEdit ? "保存修改" : "创建文章"}
         </button>
         <button type="button" onClick={() => router.push("/admin/news")} className="border border-gray-300 text-gray-700 hover:bg-gray-50 px-6 py-2 rounded-lg transition-colors">
           Cancel
@@ -147,3 +147,4 @@ export default function ArticleForm({ article }: { article?: Article }) {
     </form>
   );
 }
+

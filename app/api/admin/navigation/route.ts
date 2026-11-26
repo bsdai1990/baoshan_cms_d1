@@ -1,4 +1,4 @@
-﻿import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { getNavItems, createNavItem } from "@/lib/nav-data";
 import { getAdminSessionFromRequest } from "@/lib/admin-auth";
 
@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 async function ensureAdmin(req: NextRequest) {
   const admin = await getAdminSessionFromRequest(req);
   if (!admin) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: "未授权" }, { status: 401 });
   }
   return null;
 }
@@ -33,7 +33,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(navItem, { status: 201 });
   } catch (error) {
     console.error("Error creating nav item:", error);
-    return NextResponse.json({ error: "Failed to create navigation item" }, { status: 500 });
+    return NextResponse.json({ error: "创建导航项失败" }, { status: 500 });
   }
 }
+
 

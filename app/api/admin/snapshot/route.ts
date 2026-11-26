@@ -1,4 +1,4 @@
-﻿import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { NextResponse } from "next/server";
 
 import { getCurrentAdminSession } from "@/lib/admin-auth";
@@ -38,7 +38,7 @@ async function getSnapshotEnv(): Promise<SnapshotEnv> {
 
 export async function POST() {
   if (!(await getCurrentAdminSession())) {
-    return NextResponse.json({ error: "Not logged in or session expired" }, { status: 401 });
+    return NextResponse.json({ error: "未登录或登录已过期" }, { status: 401 });
   }
 
   const env = await getSnapshotEnv();
@@ -91,7 +91,8 @@ export async function POST() {
   return NextResponse.json({
     success: true,
     message:
-      "Snapshot generation and deployment have been queued. Please wait a few minutes for GitHub Actions to finish.",
+      "已加入快照生成和部署队列，请等待几分钟让 GitHub Actions 完成。",
     actionsUrl,
   });
 }
+

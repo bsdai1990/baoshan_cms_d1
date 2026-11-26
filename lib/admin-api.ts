@@ -1,4 +1,4 @@
-﻿export async function requestAdmin<T = unknown>(
+export async function requestAdmin<T = unknown>(
   input: RequestInfo | URL,
   init?: RequestInit
 ): Promise<T> {
@@ -16,8 +16,9 @@
     : null;
 
   if (!response.ok) {
-    throw new Error(payload?.error ?? "Request failed. Please try again later.");
+    throw new Error(payload?.error ?? "请求失败，请稍后重试。");
   }
 
   return payload as T;
 }
+

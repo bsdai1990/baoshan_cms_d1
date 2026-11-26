@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -17,13 +17,13 @@ import {
 import { requestAdmin } from "@/lib/admin-api";
 
 const navItems = [
-  { href: "/admin/dashboard", icon: LayoutDashboard, label: "Dashboard" },
-  { href: "/admin/products", icon: Package, label: "Products" },
-  { href: "/admin/news", icon: Newspaper, label: "News" },
-  { href: "/admin/banners", icon: ImageIcon, label: "Banners" },
-  { href: "/admin/contacts", icon: MessageSquare, label: "Messages" },
-  { href: "/admin/settings", icon: Settings, label: "Settings" },
-  { href: "/admin/snapshot", icon: RefreshCw, label: "Snapshot" },
+  { href: "/admin/dashboard", icon: LayoutDashboard, label: "仪表盘" },
+  { href: "/admin/products", icon: Package, label: "产品管理" },
+  { href: "/admin/news", icon: Newspaper, label: "新闻管理" },
+  { href: "/admin/banners", icon: ImageIcon, label: "横幅管理" },
+  { href: "/admin/contacts", icon: MessageSquare, label: "留言管理" },
+  { href: "/admin/settings", icon: Settings, label: "网站设置" },
+  { href: "/admin/snapshot", icon: RefreshCw, label: "静态快照" },
 ];
 
 export default function AdminSidebar() {
@@ -45,7 +45,7 @@ export default function AdminSidebar() {
           </div>
           <div>
             <div className="text-white font-semibold text-sm">Baoshan Optical</div>
-            <div className="text-xs text-gray-500">CMS Admin</div>
+            <div className="text-xs text-gray-500">后台管理</div>
           </div>
         </div>
       </div>
@@ -78,16 +78,17 @@ export default function AdminSidebar() {
           className="flex items-center space-x-3 px-3 py-2 rounded-lg text-sm text-gray-400 hover:bg-gray-800 hover:text-gray-200 transition-colors"
         >
           <Globe size={16} />
-          <span>View Website</span>
+          <span>查看网站</span>
         </a>
         <button
           onClick={handleLogout}
           className="w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-sm text-gray-400 hover:bg-gray-800 hover:text-gray-200 transition-colors"
         >
           <LogOut size={16} />
-          <span>Log Out</span>
+          <span>退出登录</span>
         </button>
       </div>
     </aside>
   );
 }
+

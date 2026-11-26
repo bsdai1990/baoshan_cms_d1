@@ -1,4 +1,4 @@
-﻿import AdminLayoutShell from "@/components/admin/AdminLayoutShell";
+import AdminLayoutShell from "@/components/admin/AdminLayoutShell";
 
 export const dynamic = "force-dynamic";
 
@@ -9,3 +9,4 @@ export default function AdminLayout({
 }) {
   return <AdminLayoutShell>{children}</AdminLayoutShell>;
 }
+

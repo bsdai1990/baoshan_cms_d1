@@ -7,3 +7,4 @@ export async function POST() {
   clearAdminSessionCookie(response);
   return response;
 }
+

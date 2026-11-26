@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -67,7 +67,7 @@ export default function ProductForm({
     try {
       specs = JSON.parse(formData.specifications);
     } catch {
-      setError("Invalid specifications JSON. Please enter valid JSON.");
+      setError("规格参数 JSON 格式不正确，请输入有效 JSON。");
       setLoading(false);
       return;
     }
@@ -97,7 +97,7 @@ export default function ProductForm({
       router.refresh();
     } catch (submitError) {
       setError(
-        submitError instanceof Error ? submitError.message : "Save failed. Please try again later."
+        submitError instanceof Error ? submitError.message : "保存失败，请稍后重试。"
       );
       setLoading(false);
     }
@@ -121,7 +121,7 @@ export default function ProductForm({
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Product Category</label>
+        <label className="block text-sm font-medium text-gray-700 mb-1">产品分类</label>
         <select name="category_id" value={formData.category_id} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
           <option value="">-- No Category --</option>
           {categories.map((category) => (
@@ -131,40 +131,40 @@ export default function ProductForm({
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Summary</label>
-        <input type="text" name="summary" value={formData.summary} onChange={handleChange} placeholder="Short product description" className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        <label className="block text-sm font-medium text-gray-700 mb-1">摘要</label>
+        <input type="text" name="summary" value={formData.summary} onChange={handleChange} placeholder="产品简短描述" className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Product Details</label>
+        <label className="block text-sm font-medium text-gray-700 mb-1">产品详情</label>
         <textarea name="description" value={formData.description} onChange={handleChange} rows={5} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-y" />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Image URL</label>
+        <label className="block text-sm font-medium text-gray-700 mb-1">图片地址</label>
         <input type="text" name="image_url" value={formData.image_url} onChange={handleChange} placeholder="/uploads/products/example.jpg or https://..." className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Specifications (JSON)</label>
+        <label className="block text-sm font-medium text-gray-700 mb-1">规格参数（JSON）</label>
         <textarea name="specifications" value={formData.specifications} onChange={handleChange} rows={6} placeholder={'{\n  "Data Rate": "10Gbps",\n  "Connector": "LC"\n}'} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-blue-500 resize-y" />
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Sort Order</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">排序</label>
           <input type="number" name="sort_order" value={formData.sort_order} onChange={handleChange} min={0} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
         </div>
         <div className="flex items-end gap-2 pb-2">
           <label className="flex items-center gap-2 cursor-pointer">
             <input type="checkbox" name="is_featured" checked={formData.is_featured} onChange={handleChange} className="w-4 h-4 text-blue-600" />
-            <span className="text-sm font-medium text-gray-700">Featured Product</span>
+            <span className="text-sm font-medium text-gray-700">推荐产品</span>
           </label>
         </div>
         <div className="flex items-end gap-2 pb-2">
           <label className="flex items-center gap-2 cursor-pointer">
             <input type="checkbox" name="is_published" checked={formData.is_published} onChange={handleChange} className="w-4 h-4 text-blue-600" />
-            <span className="text-sm font-medium text-gray-700">Published</span>
+            <span className="text-sm font-medium text-gray-700">已发布</span>
           </label>
         </div>
       </div>
@@ -173,7 +173,7 @@ export default function ProductForm({
 
       <div className="flex gap-3 pt-2">
         <button type="submit" disabled={loading} className="bg-blue-700 hover:bg-blue-800 disabled:bg-blue-400 text-white font-semibold px-6 py-2 rounded-lg transition-colors">
-          {loading ? "Saving..." : isEdit ? "Save Changes" : "Create Product"}
+          {loading ? "保存中..." : isEdit ? "保存修改" : "创建产品"}
         </button>
         <button type="button" onClick={() => router.push("/admin/products")} className="border border-gray-300 text-gray-700 hover:bg-gray-50 px-6 py-2 rounded-lg transition-colors">
           Cancel
@@ -182,3 +182,4 @@ export default function ProductForm({
     </form>
   );
 }
+

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useCallback, useEffect, useState } from "react";
 import { Trash2, ChevronUp, ChevronDown, Eye, EyeOff } from "lucide-react";
@@ -83,7 +83,7 @@ export default function NavigationPage() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this navigation item?")) return;
+    if (!confirm("确定要删除这个导航项吗？")) return;
 
     try {
       const res = await fetch(`/api/admin/navigation/${id}`, {
@@ -172,9 +172,9 @@ export default function NavigationPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Navigation</h1>
+          <h1 className="text-2xl font-bold text-gray-900">导航管理</h1>
           <p className="text-sm text-gray-500 mt-1">
-            Manage site navigation menu items
+            管理网站前台导航菜单项
           </p>
         </div>
       </div>
@@ -182,7 +182,7 @@ export default function NavigationPage() {
       {/* Form */}
       <div className="bg-white rounded-lg shadow-sm border p-6">
         <h2 className="text-lg font-semibold mb-4">
-          {editingId ? "Edit Navigation Item" : "Add New Navigation Item"}
+          {editingId ? "编辑导航项" : "新增导航项"}
         </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -196,7 +196,7 @@ export default function NavigationPage() {
                 onChange={(e) =>
                   setFormItem({ ...formItem, label: e.target.value })
                 }
-                placeholder="e.g., Products"
+                placeholder="例如：Products"
                 className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 required
               />
@@ -211,7 +211,7 @@ export default function NavigationPage() {
                 onChange={(e) =>
                   setFormItem({ ...formItem, href: e.target.value })
                 }
-                placeholder="e.g., /products"
+                placeholder="例如：/products"
                 className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 required
               />
@@ -227,7 +227,7 @@ export default function NavigationPage() {
                 }
                 className="rounded"
               />
-              <span className="text-sm text-gray-700">Visible</span>
+              <span className="text-sm text-gray-700">显示</span>
             </label>
           </div>
           <div className="flex gap-2">
@@ -237,10 +237,10 @@ export default function NavigationPage() {
               className="bg-blue-600 text-white px-4 py-2 rounded-md font-medium hover:bg-blue-700 disabled:opacity-50"
             >
               {submitting
-                ? "Saving..."
+                ? "保存中..."
                 : editingId
-                ? "Update"
-                : "Add Item"}
+                ? "更新"
+                : "添加项目"}
             </button>
             {editingId && (
               <button
@@ -261,13 +261,13 @@ export default function NavigationPage() {
       {/* Navigation Items List */}
       <div className="bg-white rounded-lg shadow-sm border">
         <div className="px-6 py-4 border-b">
-          <h2 className="text-lg font-semibold">Current Navigation</h2>
+          <h2 className="text-lg font-semibold">当前导航</h2>
         </div>
         {loading ? (
-          <div className="p-6 text-center text-gray-500">Loading...</div>
+          <div className="p-6 text-center text-gray-500">加载中...</div>
         ) : navItems.length === 0 ? (
           <div className="p-6 text-center text-gray-500">
-            No navigation items yet
+            暂无导航项
           </div>
         ) : (
           <div className="divide-y">
@@ -300,7 +300,7 @@ export default function NavigationPage() {
                   <button
                     onClick={() => handleToggleVisibility(item.id, item.is_visible)}
                     className="p-2 text-gray-400 hover:text-blue-600"
-                    title={item.is_visible ? "Hide" : "Show"}
+                    title={item.is_visible ? "隐藏" : "显示"}
                   >
                     {item.is_visible ? <Eye size={18} /> : <EyeOff size={18} />}
                   </button>
@@ -315,7 +315,7 @@ export default function NavigationPage() {
                   <button
                     onClick={() => handleDelete(item.id)}
                     className="text-red-600 hover:text-red-700"
-                    title="Delete"
+                    title="删除"
                   >
                     <Trash2 size={18} />
                   </button>
@@ -328,6 +328,7 @@ export default function NavigationPage() {
     </div>
   );
 }
+
 
 
 

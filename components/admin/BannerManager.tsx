@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -90,7 +90,7 @@ export default function BannerManager({ initialBanners }: { initialBanners: Bann
       });
       await refreshList();
     } catch (submitError) {
-      setError(submitError instanceof Error ? submitError.message : "Save failed. Please try again later.");
+      setError(submitError instanceof Error ? submitError.message : "保存失败，请稍后重试。");
       setLoading(false);
       return;
     }
@@ -99,13 +99,13 @@ export default function BannerManager({ initialBanners }: { initialBanners: Bann
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this banner?")) return;
+    if (!confirm("确定要删除这个横幅吗？")) return;
     try {
       await requestAdmin(`/api/admin/banners/${id}`, { method: "DELETE" });
       setBanners((previous) => previous.filter((banner) => banner.id !== id));
       await refreshList();
     } catch (deleteError) {
-      setError(deleteError instanceof Error ? deleteError.message : "Delete failed. Please try again later.");
+      setError(deleteError instanceof Error ? deleteError.message : "删除失败，请稍后重试。");
     }
   };
 
@@ -127,7 +127,7 @@ export default function BannerManager({ initialBanners }: { initialBanners: Bann
       setBanners((previous) => previous.map((item) => (item.id === banner.id ? response.data : item)));
       await refreshList();
     } catch (toggleError) {
-      setError(toggleError instanceof Error ? toggleError.message : "Status update failed. Please try again later.");
+      setError(toggleError instanceof Error ? toggleError.message : "状态更新失败，请稍后重试。");
     }
   };
 
@@ -135,7 +135,7 @@ export default function BannerManager({ initialBanners }: { initialBanners: Bann
     <div>
       <div className="bg-white rounded-lg shadow-sm overflow-hidden mb-6">
         <div className="flex items-center justify-between p-4 border-b">
-          <span className="font-medium text-gray-900">{banners.length} banners</span>
+          <span className="font-medium text-gray-900">{banners.length} 个横幅</span>
           <button onClick={handleNew} className="flex items-center gap-2 bg-blue-700 hover:bg-blue-800 text-white px-3 py-1.5 rounded text-sm font-medium transition-colors">
             <Plus size={15} />
             Add Banner
@@ -152,22 +152,22 @@ export default function BannerManager({ initialBanners }: { initialBanners: Bann
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={banner.image_url} alt={banner.title} className="w-full h-full object-cover" />
                   ) : (
-                    "Image"
+                    "图片"
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="font-medium text-sm text-gray-900">{banner.title}</div>
                   {banner.subtitle && <div className="text-xs text-gray-400 truncate">{banner.subtitle}</div>}
-                  <div className="text-xs text-gray-400">Sort: {banner.sort_order}</div>
+                  <div className="text-xs text-gray-400">排序： {banner.sort_order}</div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <button onClick={() => handleToggleActive(banner)} className={`p-1.5 rounded ${banner.is_active ? "text-green-600 hover:bg-green-50" : "text-gray-400 hover:bg-gray-100"}`} title={banner.is_active ? "Disable" : "Enable"}>
+                  <button onClick={() => handleToggleActive(banner)} className={`p-1.5 rounded ${banner.is_active ? "text-green-600 hover:bg-green-50" : "text-gray-400 hover:bg-gray-100"}`} title={banner.is_active ? "禁用" : "启用"}>
                     {banner.is_active ? <Eye size={15} /> : <EyeOff size={15} />}
                   </button>
-                  <button onClick={() => handleEdit(banner)} className="p-1.5 rounded text-blue-600 hover:bg-blue-50" title="Edit">
+                  <button onClick={() => handleEdit(banner)} className="p-1.5 rounded text-blue-600 hover:bg-blue-50" title="编辑">
                     <Pencil size={15} />
                   </button>
-                  <button onClick={() => handleDelete(banner.id)} className="p-1.5 rounded text-red-500 hover:bg-red-50" title="Delete">
+                  <button onClick={() => handleDelete(banner.id)} className="p-1.5 rounded text-red-500 hover:bg-red-50" title="删除">
                     <Trash2 size={15} />
                   </button>
                 </div>
@@ -179,38 +179,38 @@ export default function BannerManager({ initialBanners }: { initialBanners: Bann
 
       {showForm && (
         <div className="bg-white rounded-lg shadow-sm p-6 max-w-2xl">
-          <h2 className="font-semibold text-gray-900 mb-4">{editingId ? "Edit Banner" : "Add Banner"}</h2>
+          <h2 className="font-semibold text-gray-900 mb-4">{editingId ? "编辑横幅" : "添加横幅"}</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Title <span className="text-red-500">*</span></label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">标题 <span className="text-red-500">*</span></label>
               <input type="text" name="title" value={formData.title} onChange={handleChange} required className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Subtitle</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">副标题</label>
               <input type="text" name="subtitle" value={formData.subtitle ?? ""} onChange={handleChange} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Image URL <span className="text-red-500">*</span></label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">图片地址 <span className="text-red-500">*</span></label>
               <input type="text" name="image_url" value={formData.image_url} onChange={handleChange} required placeholder="/images/banner.jpg or https://..." className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Link URL</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">链接地址</label>
                 <input type="text" name="link_url" value={formData.link_url ?? ""} onChange={handleChange} placeholder="/products" className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Button Text</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">按钮文字</label>
                 <input type="text" name="link_text" value={formData.link_text ?? ""} onChange={handleChange} placeholder="View Products" className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
               </div>
             </div>
             <div className="grid grid-cols-2 gap-4 items-center">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Sort Order</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">排序</label>
                 <input type="number" name="sort_order" value={formData.sort_order} onChange={handleChange} min={0} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
               </div>
               <label className="flex items-center gap-2 mt-6 cursor-pointer">
                 <input type="checkbox" name="is_active" checked={formData.is_active} onChange={handleChange} className="w-4 h-4 text-blue-600" />
-                <span className="text-sm font-medium text-gray-700">Active</span>
+                <span className="text-sm font-medium text-gray-700">启用</span>
               </label>
             </div>
 
@@ -218,7 +218,7 @@ export default function BannerManager({ initialBanners }: { initialBanners: Bann
 
             <div className="flex gap-3 pt-2">
               <button type="submit" disabled={loading} className="bg-blue-700 hover:bg-blue-800 disabled:bg-blue-400 text-white font-semibold px-5 py-2 rounded-lg transition-colors">
-                {loading ? "Saving..." : editingId ? "Save Changes" : "Create Banner"}
+                {loading ? "保存中..." : editingId ? "保存修改" : "创建横幅"}
               </button>
               <button type="button" onClick={() => setShowForm(false)} className="border border-gray-300 text-gray-700 hover:bg-gray-50 px-5 py-2 rounded-lg transition-colors">
                 Cancel
@@ -230,3 +230,4 @@ export default function BannerManager({ initialBanners }: { initialBanners: Bann
     </div>
   );
 }
+
