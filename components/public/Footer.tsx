@@ -1,13 +1,15 @@
 import Link from "next/link";
 import { Phone, Mail, MapPin } from "lucide-react";
-import type { NavItem } from "@/types";
+import type { NavItem, ProductCategory } from "@/types";
 
 export default function Footer({
   settings,
   navItems,
+  productCategories,
 }: {
   settings: Record<string, string | null>;
   navItems: NavItem[];
+  productCategories: ProductCategory[];
 }) {
   const siteName = settings.site_name ?? "Baoshan Optical";
   const companyName = settings.company_name ?? siteName;
@@ -17,6 +19,8 @@ export default function Footer({
   const icpNumber = settings.icp_number;
   const description = settings.footer_description ?? "";
   const visibleNavItems = navItems.filter((item) => item.is_visible);
+  const visibleCategories = productCategories.slice(0, 5);
+  const hasMoreCategories = productCategories.length > 5;
 
   return (
     <footer className="bg-gray-900 text-gray-300">
@@ -71,19 +75,23 @@ export default function Footer({
           <div>
             <h3 className="text-white font-semibold mb-4">Categories</h3>
             <ul className="space-y-2 text-sm">
-              {[
-                { href: "/products?category=optical-fiber-cables", label: "Optical Fiber Cables" },
-                { href: "/products?category=optical-modules", label: "Optical Modules" },
-                { href: "/products?category=passive-optical-components", label: "Passive Components" },
-                { href: "/products?category=active-equipment", label: "Active Equipment" },
-                { href: "/products?category=test-instruments", label: "Test Instruments" },
-              ].map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className="hover:text-white transition-colors">
-                    {link.label}
+              {visibleCategories.map((category) => (
+                <li key={category.id}>
+                  <Link
+                    href={`/products?category=${category.slug}`}
+                    className="hover:text-white transition-colors"
+                  >
+                    {category.name}
                   </Link>
                 </li>
               ))}
+              {hasMoreCategories && (
+                <li>
+                  <Link href="/products" className="hover:text-white transition-colors">
+                    More
+                  </Link>
+                </li>
+              )}
             </ul>
           </div>
         </div>
